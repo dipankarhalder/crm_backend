@@ -6,26 +6,25 @@ const {
   healthServices,
   authServices,
   categoryServices,
-  paymentServices,
 } = require('../../controllers');
 
-// health check
+/* health check */
 router.get(
-  routers.allRouters.healthCheck,
-  healthServices.getHealthCheck,
+  routers.allRouters.health,
+  healthServices.getHealth,
 );
 
-// authentication
+/* authentication */
 router.post(
-  routers.allRouters.register,
-  authServices.userRegistration,
+  routers.allRouters.signup,
+  authServices.userSignup,
 );
 router.post(
-  routers.allRouters.login,
-  authServices.userLogin,
+  routers.allRouters.signin,
+  authServices.userSignin,
 );
 
-// profile
+/* profile */
 router.get(
   routers.allRouters.getProfile,
   authServices.userProfile,
@@ -35,7 +34,7 @@ router.patch(
   authServices.updatePassword,
 );
 
-// catagories
+/* catagories */
 router.post(
   routers.allRouters.newCategory,
   categoryServices.createCategory,
@@ -51,24 +50,6 @@ router.get(
 router.delete(
   routers.allRouters.categoryItem,
   categoryServices.deleteCategory,
-);
-
-// payments
-router.post(
-  routers.allRouters.newPayment,
-  paymentServices.createPayment,
-);
-router.get(
-  routers.allRouters.listPayment,
-  paymentServices.listPayments,
-);
-router.get(
-  routers.allRouters.paymentItem,
-  paymentServices.getPayment,
-);
-router.delete(
-  routers.allRouters.paymentItem,
-  paymentServices.deletePayment,
 );
 
 module.exports = {

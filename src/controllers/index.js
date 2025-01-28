@@ -1,7 +1,7 @@
-const { getHealthCheck } = require('./health.controller');
+const { getHealth } = require('./health.controller');
 const {
-  userRegistration,
-  userLogin,
+  userSignup,
+  userSignin,
   userProfile,
   updatePassword,
 } = require('./auth.controller');
@@ -11,20 +11,14 @@ const {
   listCategories,
   deleteCategory,
 } = require('./category.controller');
-const {
-  createPayment,
-  listPayments,
-  getPayment,
-  deletePayment,
-} = require('./payment.controller');
 
 module.exports = {
   healthServices: {
-    getHealthCheck,
+    getHealth,
   },
   authServices: {
-    userRegistration,
-    userLogin,
+    userSignup,
+    userSignin,
     userProfile,
     updatePassword,
   },
@@ -33,11 +27,5 @@ module.exports = {
     listCategories,
     getCategory,
     deleteCategory,
-  },
-  paymentServices: {
-    createPayment,
-    listPayments,
-    getPayment,
-    deletePayment,
   },
 };

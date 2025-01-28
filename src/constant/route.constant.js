@@ -1,22 +1,23 @@
 const allRouters = {
+  /* base route */
   base: '/api',
   v1Base: '/v1',
 
-  healthCheck: '/health-check',
+  /* health check */
+  health: '/health',
 
-  register: '/auth/register',
-  login: '/auth/login',
+  /* auth */
+  signup: '/auth/signup',
+  signin: '/auth/signin',
+
+  /* profile */
   getProfile: '/profile/me',
-  updateProfile: '/profile/update-me',
   updatePassword: '/profile/update-password',
 
+  /* catagories */
   newCategory: '/category/new',
   listCategory: '/category/list',
   categoryItem: '/category/:id',
-
-  newPayment: '/payment/new',
-  listPayment: '/payment/list',
-  paymentItem: '/payment/:id',
 };
 
 module.exports = {

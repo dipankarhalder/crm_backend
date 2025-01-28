@@ -3,7 +3,7 @@ const { StatusCodes } = require('http-status-codes');
 const { msg } = require('../constant');
 const { sendErrorResponse } = require('../utils');
 
-const getHealthCheck = async (req, res) => {
+const getHealth = async (req, res) => {
   try {
     return res.status(StatusCodes.OK).json({
       status: StatusCodes.OK,
@@ -15,5 +15,5 @@ const getHealthCheck = async (req, res) => {
 };
 
 module.exports = {
-  getHealthCheck,
+  getHealth,
 };

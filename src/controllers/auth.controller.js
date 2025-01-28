@@ -11,10 +11,9 @@ const {
   notFoundItem,
 } = require('../utils');
 
-/* user registration */
-const userRegistration = async (req, res) => {
+/* user signup */
+const userSignup = async (req, res) => {
   try {
-    /* validate the request body using joi */
     const { error, value } =
       authValidate.userInfoSchema.validate(req.body, {
         abortEarly: false,
@@ -85,10 +84,9 @@ const userRegistration = async (req, res) => {
   }
 };
 
-/* user login */
-const userLogin = async (req, res) => {
+/* user signin */
+const userSignin = async (req, res) => {
   try {
-    /* validate the request body using joi */
     const { error, value } =
       authValidate.userLoginSchema.validate(req.body, {
         abortEarly: false,
@@ -215,8 +213,8 @@ const updatePassword = async (req, res) => {
 };
 
 module.exports = {
-  userRegistration,
-  userLogin,
+  userSignup,
+  userSignin,
   userProfile,
   updatePassword,
 };
