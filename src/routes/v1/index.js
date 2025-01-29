@@ -5,6 +5,7 @@ const { routers } = require('../../constant');
 const {
   healthServices,
   authServices,
+  profileServices,
   categoryServices,
 } = require('../../controllers');
 
@@ -27,11 +28,11 @@ router.post(
 /* profile */
 router.get(
   routers.allRouters.getProfile,
-  authServices.userProfile,
+  profileServices.userProfile,
 );
 router.patch(
   routers.allRouters.updatePassword,
-  authServices.updatePassword,
+  profileServices.updatePassword,
 );
 
 /* catagories */
