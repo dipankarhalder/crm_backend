@@ -118,7 +118,26 @@ const userSignin = async (req, res) => {
   }
 };
 
+/* user signin */
+const userLogout = async (req, res) => {
+  try {
+    res.clearCookie('authToken', {
+      httpOnly: true,
+      secure: envConfig.NODEENV,
+      sameSite: 'Strict',
+    });
+
+    return res.status(StatusCodes.OK).json({
+      status: StatusCodes.OK,
+      message: msg.userMsg.userLogoutSuccessfully,
+    });
+  } catch (error) {
+    return sendErrorResponse(res, error);
+  }
+};
+
 module.exports = {
   userSignup,
   userSignin,
+  userLogout,
 };
