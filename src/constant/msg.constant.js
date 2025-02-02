@@ -20,8 +20,7 @@ const healthCheck = {
 };
 
 const userMsg = {
-  requireFname: 'First name should not be blank.',
-  requireLname: 'Last name should not be blank.',
+  requireName: 'Name should not be blank.',
   requirePhone: 'Phone number should not be blank.',
   requireEmail: 'Email addesss should not be blank.',
   requirePassword: 'Password should not be blank.',
