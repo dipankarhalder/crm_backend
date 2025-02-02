@@ -1,5 +1,4 @@
 const { StatusCodes } = require('http-status-codes');
-
 const User = require('../models/user.model');
 const { envConfig } = require('../config');
 const { msg } = require('../constant');
@@ -26,14 +25,7 @@ const userSignup = async (req, res) => {
     }
 
     /* get user info from request body */
-    const {
-      email,
-      password,
-      firstname,
-      lastname,
-      phone,
-      role,
-    } = value;
+    const { email, password, name, phone, role } = value;
 
     /* check if email already exists */
     const existingEmail = await User.findOne({ email });
@@ -57,24 +49,13 @@ const userSignup = async (req, res) => {
     const user = new User({
       email,
       password,
-      firstname,
-      lastname,
+      name,
       phone,
       role,
     });
     await user.save();
-
-    /* generate JWT token and set cookies */
-    const token = user.generateAuthToken();
-    res.cookie('authToken', token, {
-      httpOnly: true,
-      secure: envConfig.NODEENV,
-      maxAge: envConfig.EXPTIME,
-    });
-
     return res.status(StatusCodes.OK).json({
       status: StatusCodes.OK,
-      token: token,
       message: msg.userMsg.newUserCreated,
     });
   } catch (error) {

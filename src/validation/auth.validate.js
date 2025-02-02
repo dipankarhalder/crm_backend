@@ -2,6 +2,9 @@ const Joi = require('joi');
 const { msg } = require('../constant');
 
 const userInfoSchema = Joi.object({
+  name: Joi.string().required().messages({
+    'string.empty': msg.userMsg.requireName,
+  }),
   email: Joi.string().email().required().messages({
     'string.empty': msg.userMsg.requireEmail,
     'string.email': msg.userMsg.validateUserEmail,
@@ -9,12 +12,6 @@ const userInfoSchema = Joi.object({
   password: Joi.string().min(6).required().messages({
     'string.empty': msg.userMsg.requirePassword,
     'string.min': msg.userMsg.minimumPassword,
-  }),
-  firstname: Joi.string().required().messages({
-    'string.empty': msg.userMsg.requireFname,
-  }),
-  lastname: Joi.string().required().messages({
-    'string.empty': msg.userMsg.requireLname,
   }),
   phone: Joi.string().min(10).required().messages({
     'string.empty': msg.userMsg.requirePhone,

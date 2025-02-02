@@ -1,14 +1,18 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-
 const { envConfig } = require('../config');
 
 const saltNum = 10;
-const roles = ['super_admin', 'admin', 'staff'];
+const roles = ['super_admin', 'collaborator', 'staff'];
 
 const UserSchema = new mongoose.Schema(
   {
+    name: {
+      type: String,
+      required: true,
+      trim: true,
+    },
     email: {
       type: String,
       required: true,
@@ -20,24 +24,14 @@ const UserSchema = new mongoose.Schema(
       required: true,
       minlength: 6,
     },
+    phone: {
+      type: String,
+      required: true,
+    },
     role: {
       type: String,
       enum: roles,
       default: 'super_admin',
-    },
-    firstname: {
-      type: String,
-      required: true,
-      trim: true,
-    },
-    lastname: {
-      type: String,
-      required: true,
-      trim: true,
-    },
-    phone: {
-      type: String,
-      required: true,
     },
     address: {
       area: {
@@ -55,11 +49,6 @@ const UserSchema = new mongoose.Schema(
       pincode: {
         type: String,
       },
-    },
-    verified: {
-      type: Boolean,
-      required: true,
-      default: false,
     },
   },
   {
