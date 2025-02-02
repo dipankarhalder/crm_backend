@@ -16,6 +16,11 @@ const allRouters = {
   updatePassword: '/profile/update-password',
   updateAddress: '/profile/update-address',
 
+  /* consumers */
+  newConsumer: '/consumer/new',
+  listConsumers: '/consumer/list',
+  ConsumerItem: '/consumer/:id',
+
   /* catagories */
   newCategory: '/category/new',
   listCategory: '/category/list',
