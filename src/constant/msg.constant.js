@@ -74,6 +74,21 @@ const categoryMsg = {
   categoryDeleted: 'Category deleted successfully.',
 };
 
+const consumerMsg = {
+  requireConsumerName: 'Consumer name should not be blank.',
+  maxName:
+    'Consumer name should not be more than 60 characters.',
+  requireDescription:
+    'Consumer description should not be blank.',
+  maxDescription:
+    'Consumer description should not be more than 255 characters.',
+  consumerAlreadyExist:
+    'Provided consumer is already exist.',
+  newConsumerCreated: 'New consumer created successfully.',
+  consumerNotFound: 'The consumer is not found.',
+  consumerDeleted: 'Consumer deleted successfully.',
+};
+
 module.exports = {
   server,
   dbMsg,
@@ -81,4 +96,5 @@ module.exports = {
   healthCheck,
   userMsg,
   categoryMsg,
+  consumerMsg,
 };
