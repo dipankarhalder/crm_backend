@@ -1,6 +1,5 @@
 const { StatusCodes } = require('http-status-codes');
 const jwt = require('jsonwebtoken');
-
 const { envConfig } = require('../config');
 const { msg } = require('../constant');
 

@@ -46,10 +46,13 @@ const userMsg = {
     'New password should be different from old password',
   newUserCreated: 'New user created successfully.',
   updatedUserPassword: 'Password successfully updated.',
-  userLoginSuccessfully: 'You are successfully logged-in',
+  updatedUserAddress: 'Address successfully updated.',
+  userLoginSuccessfully: 'You are successfully logged-in.',
+  userLogoutSuccessfully:
+    'You are Logged-out successfully.',
   updateSuccess: 'User information successfully updated.',
   existUserEmail: 'Provided email address is not exist!',
-  invalidToken: 'Invalid token, please login again',
+  invalidToken: 'Invalid token, please login again.',
   accessDenied: 'Access denied. No token provided.',
   notUserAccess:
     "Access denied. you don't have permission.",
@@ -71,6 +74,21 @@ const categoryMsg = {
   categoryDeleted: 'Category deleted successfully.',
 };
 
+const consumerMsg = {
+  requireConsumerName: 'Consumer name should not be blank.',
+  maxName:
+    'Consumer name should not be more than 60 characters.',
+  requireDescription:
+    'Consumer description should not be blank.',
+  maxDescription:
+    'Consumer description should not be more than 255 characters.',
+  consumerAlreadyExist:
+    'Provided consumer is already exist.',
+  newConsumerCreated: 'New consumer created successfully.',
+  consumerNotFound: 'The consumer is not found.',
+  consumerDeleted: 'Consumer deleted successfully.',
+};
+
 module.exports = {
   server,
   dbMsg,
@@ -78,4 +96,5 @@ module.exports = {
   healthCheck,
   userMsg,
   categoryMsg,
+  consumerMsg,
 };
