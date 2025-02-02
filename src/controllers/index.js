@@ -2,10 +2,12 @@ const { getHealth } = require('./health.controller');
 const {
   userSignup,
   userSignin,
+  userLogout,
 } = require('./auth.controller');
 const {
   userProfile,
   updatePassword,
+  updateAddress,
 } = require('./profile.controller');
 const {
   createCategory,
@@ -21,10 +23,12 @@ module.exports = {
   authServices: {
     userSignup,
     userSignin,
+    userLogout,
   },
   profileServices: {
     userProfile,
     updatePassword,
+    updateAddress,
   },
   categoryServices: {
     createCategory,

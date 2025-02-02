@@ -1,5 +1,4 @@
 const { StatusCodes } = require('http-status-codes');
-
 const User = require('../models/user.model');
 const { msg } = require('../constant');
 const { authValidate } = require('../validation');
@@ -54,8 +53,6 @@ const updatePassword = async (req, res) => {
 
     /* use the password info after validate it */
     const { oldPassword, newPassword } = value;
-
-    /* find user by email */
     const user = await User.findById(decoded.userid);
     if (!user) {
       return validateFields(res, msg.userMsg.userNotFound);
@@ -73,7 +70,6 @@ const updatePassword = async (req, res) => {
     /* update password */
     user.password = newPassword;
     await user.save();
-
     return res.status(StatusCodes.OK).json({
       status: StatusCodes.OK,
       message: msg.userMsg.updatedUserPassword,
@@ -83,7 +79,34 @@ const updatePassword = async (req, res) => {
   }
 };
 
+/* update user address */
+const updateAddress = async (req, res) => {
+  try {
+    const decoded = await verifyToken(req, res);
+    if (!decoded) return;
+
+    /* user address request */
+    const { area, landmark, city, state, pincode } =
+      req.body;
+    const user = await User.findById(decoded.userid);
+    if (!user) {
+      return validateFields(res, msg.userMsg.userNotFound);
+    }
+
+    /* update address */
+    user.address = { area, landmark, city, state, pincode };
+    await user.save();
+    return res.status(StatusCodes.OK).json({
+      status: StatusCodes.OK,
+      message: msg.userMsg.updatedUserAddress,
+    });
+  } catch (error) {
+    return sendErrorResponse(res, error);
+  }
+};
+
 module.exports = {
   userProfile,
   updatePassword,
+  updateAddress,
 };

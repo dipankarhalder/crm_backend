@@ -46,10 +46,13 @@ const userMsg = {
     'New password should be different from old password',
   newUserCreated: 'New user created successfully.',
   updatedUserPassword: 'Password successfully updated.',
-  userLoginSuccessfully: 'You are successfully logged-in',
+  updatedUserAddress: 'Address successfully updated.',
+  userLoginSuccessfully: 'You are successfully logged-in.',
+  userLogoutSuccessfully:
+    'You are Logged-out successfully.',
   updateSuccess: 'User information successfully updated.',
   existUserEmail: 'Provided email address is not exist!',
-  invalidToken: 'Invalid token, please login again',
+  invalidToken: 'Invalid token, please login again.',
   accessDenied: 'Access denied. No token provided.',
   notUserAccess:
     "Access denied. you don't have permission.",

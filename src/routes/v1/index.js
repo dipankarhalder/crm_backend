@@ -24,6 +24,10 @@ router.post(
   routers.allRouters.signin,
   authServices.userSignin,
 );
+router.post(
+  routers.allRouters.signout,
+  authServices.userLogout,
+);
 
 /* profile */
 router.get(
@@ -33,6 +37,10 @@ router.get(
 router.patch(
   routers.allRouters.updatePassword,
   profileServices.updatePassword,
+);
+router.patch(
+  routers.allRouters.updateAddress,
+  profileServices.updateAddress,
 );
 
 /* catagories */
