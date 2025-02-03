@@ -11,9 +11,16 @@ const { RootApiRouter } = require('./routes');
 /* initial express app */
 const app = express();
 
+/* CORS configuration */
+const corsOptions = {
+  origin: envConfig.CLIENTURL,
+  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
+  credentials: true,
+};
+
 /* all important middleware */
 app.use(morgan(envConfig.PLATFORM));
-app.use(cors({ credentials: true }));
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
