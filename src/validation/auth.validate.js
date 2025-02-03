@@ -18,7 +18,7 @@ const userInfoSchema = Joi.object({
     'string.min': msg.userMsg.minimumPhone,
   }),
   role: Joi.string()
-    .valid('super_admin', 'admin', 'staff')
+    .valid('super_admin', 'collaborator', 'staff')
     .required()
     .messages({
       'any.only': msg.userMsg.requireRole,
