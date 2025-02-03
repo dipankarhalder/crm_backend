@@ -8,4 +8,5 @@ module.exports = {
   JWTSECRET: process.env.JWTSECRET,
   EXPTIME: process.env.EXPTIME,
   NODEENV: process.env.NODEENV,
+  CLIENTURL: process.env.CLIENTURL,
 };
