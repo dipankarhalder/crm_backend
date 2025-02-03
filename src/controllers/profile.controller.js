@@ -31,6 +31,26 @@ const userProfile = async (req, res) => {
   }
 };
 
+/* user profile list */
+const userProfileList = async (req, res) => {
+  try {
+    const decoded = await verifyToken(req, res);
+    if (!decoded) return;
+
+    const role = req.query.role;
+    const userList =
+      role === 'all'
+        ? await User.find().select('-password')
+        : await User.find({ role }).select('-password');
+    return res.status(StatusCodes.OK).json({
+      status: StatusCodes.OK,
+      data: userList,
+    });
+  } catch (error) {
+    return sendErrorResponse(res, error);
+  }
+};
+
 /* update user password */
 const updatePassword = async (req, res) => {
   try {
@@ -107,6 +127,7 @@ const updateAddress = async (req, res) => {
 
 module.exports = {
   userProfile,
+  userProfileList,
   updatePassword,
   updateAddress,
 };

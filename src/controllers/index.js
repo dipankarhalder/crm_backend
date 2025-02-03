@@ -6,6 +6,7 @@ const {
 } = require('./auth.controller');
 const {
   userProfile,
+  userProfileList,
   updatePassword,
   updateAddress,
 } = require('./profile.controller');
@@ -27,6 +28,7 @@ module.exports = {
   },
   profileServices: {
     userProfile,
+    userProfileList,
     updatePassword,
     updateAddress,
   },
