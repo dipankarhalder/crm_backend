@@ -34,6 +34,10 @@ router.get(
   routers.allRouters.getProfile,
   profileServices.userProfile,
 );
+router.get(
+  routers.allRouters.getColProfile,
+  profileServices.userProfileList,
+);
 router.patch(
   routers.allRouters.updatePassword,
   profileServices.updatePassword,
