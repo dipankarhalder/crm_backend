@@ -13,6 +13,7 @@ const allRouters = {
 
   /* profile */
   getProfile: '/profile/me',
+  getColProfile: '/profile',
   updatePassword: '/profile/update-password',
   updateAddress: '/profile/update-address',
 
