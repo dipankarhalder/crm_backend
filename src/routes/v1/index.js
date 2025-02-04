@@ -2,7 +2,13 @@ const express = require('express');
 const router = express.Router();
 
 const { routers } = require('../../constant');
-const { healthServices, authServices, profileServices, categoryServices } = require('../../controllers');
+const {
+  healthServices,
+  authServices,
+  profileServices,
+  categoryServices,
+  consumerServices,
+} = require('../../controllers');
 
 /* health check */
 router.get(routers.allRouters.health, healthServices.getHealth);
@@ -17,6 +23,12 @@ router.get(routers.allRouters.getProfile, profileServices.userProfile);
 router.get(routers.allRouters.getColProfile, profileServices.userProfileList);
 router.patch(routers.allRouters.updatePassword, profileServices.updatePassword);
 router.patch(routers.allRouters.updateAddress, profileServices.updateAddress);
+
+/* consumers */
+router.post(routers.allRouters.newConsumer, consumerServices.createConsumer);
+router.get(routers.allRouters.listConsumers, consumerServices.listConsumers);
+router.get(routers.allRouters.consumerItem, consumerServices.getConsumer);
+router.delete(routers.allRouters.consumerItem, consumerServices.deleteConsumer);
 
 /* catagories */
 router.post(routers.allRouters.newCategory, categoryServices.createCategory);

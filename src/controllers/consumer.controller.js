@@ -1,8 +1,8 @@
 const { StatusCodes } = require('http-status-codes');
-
 const User = require('../models/user.model');
 const Consumer = require('../models/consumer.model');
 const { msg } = require('../constant');
+const { consumerValidate } = require('../validation');
 const { verifyToken, validateFields, sendErrorResponse, notFoundItem } = require('../utils');
 
 /* create consumer */
@@ -11,26 +11,17 @@ const createConsumer = async (req, res) => {
     const decoded = await verifyToken(req, res);
     if (!decoded) return;
 
-    // const { error, value } =
-    //   categoryValidate.categoryInfoSchema.validate(
-    //     req.body,
-    //     { abortEarly: false },
-    //   );
-    // if (error) {
-    //   return validateFields(
-    //     res,
-    //     error.details
-    //       .map((detail) => detail.message)
-    //       .join(', '),
-    //   );
-    // }
+    const { error, value } = consumerValidate.consumerInfoSchema.validate(req.body, { abortEarly: false });
+    if (error) {
+      return validateFields(res, error.details.map((detail) => detail.message).join(', '));
+    }
 
-    const { name, email, phone, area, landmark, city, state, pincode } = req.body;
+    const { name, email, phone, area, landmark, city, state, pincode } = value;
     const existingConsumer = await Consumer.findOne({
       email,
     });
     if (existingConsumer) {
-      return validateFields(res, msg.categoryMsg.categoryAlreadyExist);
+      return validateFields(res, msg.consumerMsg.consumerAlreadyExist);
     }
 
     const user = await User.findById(decoded.userid).select('-password');
@@ -52,7 +43,7 @@ const createConsumer = async (req, res) => {
     return res.status(StatusCodes.OK).json({
       status: StatusCodes.OK,
       category: newConsumer,
-      message: msg.categoryMsg.newCategoryCreated,
+      message: msg.consumerMsg.newConsumerCreated,
     });
   } catch (error) {
     return sendErrorResponse(res, error);
