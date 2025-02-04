@@ -40,8 +40,12 @@ const userProfileList = async (req, res) => {
     const role = req.query.role;
     const userList =
       role === 'all'
-        ? await User.find().select('-password')
-        : await User.find({ role }).select('-password');
+        ? await User.find()
+            .select('-password')
+            .sort({ _id: -1 })
+        : await User.find({ role })
+            .select('-password')
+            .sort({ _id: -1 });
     return res.status(StatusCodes.OK).json({
       status: StatusCodes.OK,
       data: userList,
@@ -106,19 +110,28 @@ const updateAddress = async (req, res) => {
     if (!decoded) return;
 
     /* user address request */
-    const { area, landmark, city, state, pincode } =
-      req.body;
+    const {
+      name,
+      phone,
+      area,
+      landmark,
+      city,
+      state,
+      pincode,
+    } = req.body;
     const user = await User.findById(decoded.userid);
     if (!user) {
       return validateFields(res, msg.userMsg.userNotFound);
     }
 
     /* update address */
+    if (name) user.name = name;
+    if (phone) user.phone = phone;
     user.address = { area, landmark, city, state, pincode };
     await user.save();
     return res.status(StatusCodes.OK).json({
       status: StatusCodes.OK,
-      message: msg.userMsg.updatedUserAddress,
+      message: msg.userMsg.updatedUserProfile,
     });
   } catch (error) {
     return sendErrorResponse(res, error);

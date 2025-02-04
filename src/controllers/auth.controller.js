@@ -36,14 +36,14 @@ const userSignup = async (req, res) => {
       );
     }
 
-    /* check if phone number already exists */
-    const existingPhone = await User.findOne({ phone });
-    if (existingPhone) {
-      return validateFields(
-        res,
-        msg.userMsg.phoneAlreadyExist,
-      );
-    }
+    // /* check if phone number already exists */
+    // const existingPhone = await User.findOne({ phone });
+    // if (existingPhone) {
+    //   return validateFields(
+    //     res,
+    //     msg.userMsg.phoneAlreadyExist,
+    //   );
+    // }
 
     /* save the user to the database */
     const user = new User({

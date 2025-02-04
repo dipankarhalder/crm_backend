@@ -46,7 +46,7 @@ const userMsg = {
     'New password should be different from old password',
   newUserCreated: 'New user created successfully.',
   updatedUserPassword: 'Password successfully updated.',
-  updatedUserAddress: 'Address successfully updated.',
+  updatedUserProfile: 'Profile successfully updated.',
   userLoginSuccessfully: 'You are successfully logged-in.',
   userLogoutSuccessfully:
     'You are Logged-out successfully.',

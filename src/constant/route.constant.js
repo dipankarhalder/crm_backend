@@ -15,7 +15,7 @@ const allRouters = {
   getProfile: '/profile/me',
   getColProfile: '/profile',
   updatePassword: '/profile/update-password',
-  updateAddress: '/profile/update-address',
+  updateAddress: '/profile/update-profile',
 
   /* consumers */
   newConsumer: '/consumer/new',
