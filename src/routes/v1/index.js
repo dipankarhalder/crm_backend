@@ -2,68 +2,27 @@ const express = require('express');
 const router = express.Router();
 
 const { routers } = require('../../constant');
-const {
-  healthServices,
-  authServices,
-  profileServices,
-  categoryServices,
-} = require('../../controllers');
+const { healthServices, authServices, profileServices, categoryServices } = require('../../controllers');
 
 /* health check */
-router.get(
-  routers.allRouters.health,
-  healthServices.getHealth,
-);
+router.get(routers.allRouters.health, healthServices.getHealth);
 
 /* authentication */
-router.post(
-  routers.allRouters.signup,
-  authServices.userSignup,
-);
-router.post(
-  routers.allRouters.signin,
-  authServices.userSignin,
-);
-router.post(
-  routers.allRouters.signout,
-  authServices.userLogout,
-);
+router.post(routers.allRouters.signup, authServices.userSignup);
+router.post(routers.allRouters.signin, authServices.userSignin);
+router.post(routers.allRouters.signout, authServices.userLogout);
 
 /* profile */
-router.get(
-  routers.allRouters.getProfile,
-  profileServices.userProfile,
-);
-router.get(
-  routers.allRouters.getColProfile,
-  profileServices.userProfileList,
-);
-router.patch(
-  routers.allRouters.updatePassword,
-  profileServices.updatePassword,
-);
-router.patch(
-  routers.allRouters.updateAddress,
-  profileServices.updateAddress,
-);
+router.get(routers.allRouters.getProfile, profileServices.userProfile);
+router.get(routers.allRouters.getColProfile, profileServices.userProfileList);
+router.patch(routers.allRouters.updatePassword, profileServices.updatePassword);
+router.patch(routers.allRouters.updateAddress, profileServices.updateAddress);
 
 /* catagories */
-router.post(
-  routers.allRouters.newCategory,
-  categoryServices.createCategory,
-);
-router.get(
-  routers.allRouters.listCategory,
-  categoryServices.listCategories,
-);
-router.get(
-  routers.allRouters.categoryItem,
-  categoryServices.getCategory,
-);
-router.delete(
-  routers.allRouters.categoryItem,
-  categoryServices.deleteCategory,
-);
+router.post(routers.allRouters.newCategory, categoryServices.createCategory);
+router.get(routers.allRouters.listCategory, categoryServices.listCategories);
+router.get(routers.allRouters.categoryItem, categoryServices.getCategory);
+router.delete(routers.allRouters.categoryItem, categoryServices.deleteCategory);
 
 module.exports = {
   v1Routes: router,

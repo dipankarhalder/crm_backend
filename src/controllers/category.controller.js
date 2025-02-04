@@ -4,12 +4,7 @@ const User = require('../models/user.model');
 const Category = require('../models/category.model');
 const { msg } = require('../constant');
 const { categoryValidate } = require('../validation');
-const {
-  verifyToken,
-  validateFields,
-  sendErrorResponse,
-  notFoundItem,
-} = require('../utils');
+const { verifyToken, validateFields, sendErrorResponse, notFoundItem } = require('../utils');
 
 /* create category */
 const createCategory = async (req, res) => {
@@ -17,18 +12,11 @@ const createCategory = async (req, res) => {
     const decoded = await verifyToken(req, res);
     if (!decoded) return;
 
-    const { error, value } =
-      categoryValidate.categoryInfoSchema.validate(
-        req.body,
-        { abortEarly: false },
-      );
+    const { error, value } = categoryValidate.categoryInfoSchema.validate(req.body, {
+      abortEarly: false,
+    });
     if (error) {
-      return validateFields(
-        res,
-        error.details
-          .map((detail) => detail.message)
-          .join(', '),
-      );
+      return validateFields(res, error.details.map((detail) => detail.message).join(', '));
     }
 
     const { categoryName, description } = value;
@@ -36,15 +24,10 @@ const createCategory = async (req, res) => {
       categoryName,
     });
     if (existingCategory) {
-      return validateFields(
-        res,
-        msg.categoryMsg.categoryAlreadyExist,
-      );
+      return validateFields(res, msg.categoryMsg.categoryAlreadyExist);
     }
 
-    const user = await User.findById(decoded.userid).select(
-      '-password',
-    );
+    const user = await User.findById(decoded.userid).select('-password');
     const newCategory = new Category({
       categoryName,
       description,
@@ -79,8 +62,7 @@ const listCategories = async (req, res) => {
 const getCategory = async (req, res) => {
   try {
     const categoryId = req.params.id;
-    const categoryDetails =
-      await Category.findById(categoryId);
+    const categoryDetails = await Category.findById(categoryId);
     return res.status(StatusCodes.OK).json({
       status: StatusCodes.OK,
       details: categoryDetails,
@@ -96,10 +78,7 @@ const deleteCategory = async (req, res) => {
     const categoryId = req.params.id;
     const category = await Category.findById(categoryId);
     if (!category) {
-      return notFoundItem(
-        res,
-        msg.categoryMsg.categoryNotFound,
-      );
+      return notFoundItem(res, msg.categoryMsg.categoryNotFound);
     }
     await Category.findByIdAndDelete(categoryId);
     return res.status(StatusCodes.OK).json({
