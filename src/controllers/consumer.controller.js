@@ -3,12 +3,7 @@ const { StatusCodes } = require('http-status-codes');
 const User = require('../models/user.model');
 const Consumer = require('../models/consumer.model');
 const { msg } = require('../constant');
-const {
-  verifyToken,
-  validateFields,
-  sendErrorResponse,
-  notFoundItem,
-} = require('../utils');
+const { verifyToken, validateFields, sendErrorResponse, notFoundItem } = require('../utils');
 
 /* create consumer */
 const createConsumer = async (req, res) => {
@@ -30,29 +25,15 @@ const createConsumer = async (req, res) => {
     //   );
     // }
 
-    const {
-      name,
-      email,
-      phone,
-      area,
-      landmark,
-      city,
-      state,
-      pincode,
-    } = req.body;
+    const { name, email, phone, area, landmark, city, state, pincode } = req.body;
     const existingConsumer = await Consumer.findOne({
       email,
     });
     if (existingConsumer) {
-      return validateFields(
-        res,
-        msg.categoryMsg.categoryAlreadyExist,
-      );
+      return validateFields(res, msg.categoryMsg.categoryAlreadyExist);
     }
 
-    const user = await User.findById(decoded.userid).select(
-      '-password',
-    );
+    const user = await User.findById(decoded.userid).select('-password');
     const newConsumer = new Consumer({
       name,
       email,
@@ -95,8 +76,7 @@ const listConsumers = async (req, res) => {
 const getConsumer = async (req, res) => {
   try {
     const consumerId = req.params.id;
-    const consumerDetails =
-      await Consumer.findById(consumerId);
+    const consumerDetails = await Consumer.findById(consumerId);
     return res.status(StatusCodes.OK).json({
       status: StatusCodes.OK,
       details: consumerDetails,
@@ -112,10 +92,7 @@ const deleteConsumer = async (req, res) => {
     const consumerId = req.params.id;
     const consumer = await Consumer.findById(consumerId);
     if (!consumer) {
-      return notFoundItem(
-        res,
-        msg.consumerMsg.consumerNotFound,
-      );
+      return notFoundItem(res, msg.consumerMsg.consumerNotFound);
     }
     await Consumer.findByIdAndDelete(consumerId);
     return res.status(StatusCodes.OK).json({
