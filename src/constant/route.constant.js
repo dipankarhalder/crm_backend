@@ -20,7 +20,7 @@ const allRouters = {
   /* consumers */
   newConsumer: '/consumer/new',
   listConsumers: '/consumer/list',
-  ConsumerItem: '/consumer/:id',
+  consumerItem: '/consumer/:id',
 
   /* catagories */
   newCategory: '/category/new',
