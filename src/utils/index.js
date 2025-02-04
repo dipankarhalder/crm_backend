@@ -4,13 +4,11 @@ const { envConfig } = require('../config');
 const { msg } = require('../constant');
 
 const sendErrorResponse = (res, error) => {
-  return res
-    .status(StatusCodes.INTERNAL_SERVER_ERROR)
-    .json({
-      status: StatusCodes.INTERNAL_SERVER_ERROR,
-      message: msg.appMsg.somethingWrong,
-      error: error.message,
-    });
+  return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+    status: StatusCodes.INTERNAL_SERVER_ERROR,
+    message: msg.appMsg.somethingWrong,
+    error: error.message,
+  });
 };
 
 const validateFields = (res, messages) => {

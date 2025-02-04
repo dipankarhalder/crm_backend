@@ -2,12 +2,7 @@ const { StatusCodes } = require('http-status-codes');
 const User = require('../models/user.model');
 const { msg } = require('../constant');
 const { authValidate } = require('../validation');
-const {
-  verifyToken,
-  validateFields,
-  sendErrorResponse,
-  notFoundItem,
-} = require('../utils');
+const { verifyToken, validateFields, sendErrorResponse, notFoundItem } = require('../utils');
 
 /* user profile */
 const userProfile = async (req, res) => {
@@ -15,9 +10,7 @@ const userProfile = async (req, res) => {
     const decoded = await verifyToken(req, res);
     if (!decoded) return;
 
-    const user = await User.findById(decoded.userid).select(
-      '-password',
-    );
+    const user = await User.findById(decoded.userid).select('-password');
     if (!user) {
       return notFoundItem(res, msg.userMsg.userNotFound);
     }
@@ -40,8 +33,8 @@ const userProfileList = async (req, res) => {
     const role = req.query.role;
     const userList =
       role === 'all'
-        ? await User.find().select('-password')
-        : await User.find({ role }).select('-password');
+        ? await User.find().select('-password').sort({ _id: -1 })
+        : await User.find({ role }).select('-password').sort({ _id: -1 });
     return res.status(StatusCodes.OK).json({
       status: StatusCodes.OK,
       data: userList,
@@ -58,17 +51,11 @@ const updatePassword = async (req, res) => {
     if (!decoded) return;
 
     /* validate the password input fields */
-    const { error, value } =
-      authValidate.passwordSchema.validate(req.body, {
-        abortEarly: false,
-      });
+    const { error, value } = authValidate.passwordSchema.validate(req.body, {
+      abortEarly: false,
+    });
     if (error) {
-      return validateFields(
-        res,
-        error.details
-          .map((detail) => detail.message)
-          .join(', '),
-      );
+      return validateFields(res, error.details.map((detail) => detail.message).join(', '));
     }
 
     /* use the password info after validate it */
@@ -81,10 +68,7 @@ const updatePassword = async (req, res) => {
     /* check if the old password matches */
     const isMatch = await user.comparePassword(oldPassword);
     if (!isMatch) {
-      return validateFields(
-        res,
-        msg.userMsg.userWrongPassword,
-      );
+      return validateFields(res, msg.userMsg.userWrongPassword);
     }
 
     /* update password */
@@ -106,19 +90,20 @@ const updateAddress = async (req, res) => {
     if (!decoded) return;
 
     /* user address request */
-    const { area, landmark, city, state, pincode } =
-      req.body;
+    const { name, phone, area, landmark, city, state, pincode } = req.body;
     const user = await User.findById(decoded.userid);
     if (!user) {
       return validateFields(res, msg.userMsg.userNotFound);
     }
 
     /* update address */
+    if (name) user.name = name;
+    if (phone) user.phone = phone;
     user.address = { area, landmark, city, state, pincode };
     await user.save();
     return res.status(StatusCodes.OK).json({
       status: StatusCodes.OK,
-      message: msg.userMsg.updatedUserAddress,
+      message: msg.userMsg.updatedUserProfile,
     });
   } catch (error) {
     return sendErrorResponse(res, error);

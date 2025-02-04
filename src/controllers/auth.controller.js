@@ -3,25 +3,16 @@ const User = require('../models/user.model');
 const { envConfig } = require('../config');
 const { msg } = require('../constant');
 const { authValidate } = require('../validation');
-const {
-  validateFields,
-  sendErrorResponse,
-} = require('../utils');
+const { validateFields, sendErrorResponse } = require('../utils');
 
 /* user signup */
 const userSignup = async (req, res) => {
   try {
-    const { error, value } =
-      authValidate.userInfoSchema.validate(req.body, {
-        abortEarly: false,
-      });
+    const { error, value } = authValidate.userInfoSchema.validate(req.body, {
+      abortEarly: false,
+    });
     if (error) {
-      return validateFields(
-        res,
-        error.details
-          .map((detail) => detail.message)
-          .join(', '),
-      );
+      return validateFields(res, error.details.map((detail) => detail.message).join(', '));
     }
 
     /* get user info from request body */
@@ -30,20 +21,17 @@ const userSignup = async (req, res) => {
     /* check if email already exists */
     const existingEmail = await User.findOne({ email });
     if (existingEmail) {
-      return validateFields(
-        res,
-        msg.userMsg.emailAlreadyExist,
-      );
+      return validateFields(res, msg.userMsg.emailAlreadyExist);
     }
 
-    /* check if phone number already exists */
-    const existingPhone = await User.findOne({ phone });
-    if (existingPhone) {
-      return validateFields(
-        res,
-        msg.userMsg.phoneAlreadyExist,
-      );
-    }
+    // /* check if phone number already exists */
+    // const existingPhone = await User.findOne({ phone });
+    // if (existingPhone) {
+    //   return validateFields(
+    //     res,
+    //     msg.userMsg.phoneAlreadyExist,
+    //   );
+    // }
 
     /* save the user to the database */
     const user = new User({
@@ -66,17 +54,11 @@ const userSignup = async (req, res) => {
 /* user signin */
 const userSignin = async (req, res) => {
   try {
-    const { error, value } =
-      authValidate.userLoginSchema.validate(req.body, {
-        abortEarly: false,
-      });
+    const { error, value } = authValidate.userLoginSchema.validate(req.body, {
+      abortEarly: false,
+    });
     if (error) {
-      return validateFields(
-        res,
-        error.details
-          .map((detail) => detail.message)
-          .join(', '),
-      );
+      return validateFields(res, error.details.map((detail) => detail.message).join(', '));
     }
 
     /* get user info from request body */
@@ -85,19 +67,13 @@ const userSignin = async (req, res) => {
     /* validate the user email */
     const user = await User.findOne({ email });
     if (!user) {
-      return validateFields(
-        res,
-        msg.userMsg.existUserEmail,
-      );
+      return validateFields(res, msg.userMsg.existUserEmail);
     }
 
     /* validate / compare the user password */
     const isMatch = await user.comparePassword(password);
     if (!isMatch) {
-      return validateFields(
-        res,
-        msg.userMsg.userWrongPassword,
-      );
+      return validateFields(res, msg.userMsg.userWrongPassword);
     }
 
     /* generate JWT after successful login */
