@@ -53,7 +53,7 @@ const createConsumer = async (req, res) => {
 /* list of consumers */
 const listConsumers = async (req, res) => {
   try {
-    const consumers = await Consumer.find();
+    const consumers = await Consumer.find().sort({ _id: -1 });
     return res.status(StatusCodes.OK).json({
       status: StatusCodes.OK,
       list: consumers,
