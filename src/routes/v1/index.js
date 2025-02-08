@@ -8,6 +8,8 @@ const {
   profileServices,
   categoryServices,
   consumerServices,
+  transactionServices,
+  eventServices,
 } = require('../../controllers');
 
 /* health check */
@@ -35,6 +37,16 @@ router.post(routers.allRouters.newCategory, categoryServices.createCategory);
 router.get(routers.allRouters.listCategory, categoryServices.listCategories);
 router.get(routers.allRouters.categoryItem, categoryServices.getCategory);
 router.delete(routers.allRouters.categoryItem, categoryServices.deleteCategory);
+
+/* transaction */
+router.post(routers.allRouters.newTransaction, transactionServices.createTransaction);
+router.get(routers.allRouters.listTransactions, transactionServices.getAllTransaction);
+router.get(routers.allRouters.transactionItem, transactionServices.getTransaction);
+
+/* event */
+router.post(routers.allRouters.newEvent, eventServices.createEvent);
+router.get(routers.allRouters.listEvents, eventServices.getAllEvents);
+router.get(routers.allRouters.eventItem, eventServices.getEvent);
 
 module.exports = {
   v1Routes: router,
