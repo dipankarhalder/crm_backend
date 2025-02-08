@@ -26,6 +26,16 @@ const allRouters = {
   newCategory: '/category/new',
   listCategory: '/category/list',
   categoryItem: '/category/:id',
+
+  /* event */
+  newEvent: '/event/new',
+  listEvents: '/event/list',
+  eventItem: '/event/:id',
+
+  /* transaction */
+  newTransaction: '/transaction/new',
+  listTransactions: '/transaction/list',
+  transactionItem: '/transaction/:id',
 };
 
 module.exports = {
