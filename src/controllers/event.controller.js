@@ -10,7 +10,7 @@ const createEvent = async (req, res) => {
     const decoded = await verifyToken(req, res);
     if (!decoded) return;
 
-    const { eventName, totalAmount, consumerId } = req.body;
+    const { eventName, totalAmount, initialPaid, consumerId } = req.body;
     const findConsumer = await Consumer.findById(consumerId).select('-address');
     if (!findConsumer) {
       return res.status(StatusCodes.NOT_FOUND).json({
@@ -22,6 +22,7 @@ const createEvent = async (req, res) => {
     const newEvent = new Event({
       eventName,
       totalAmount,
+      initialPaid,
       consumerId,
       consumer: { ...findConsumer.toObject() },
     });
