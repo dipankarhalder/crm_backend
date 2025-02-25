@@ -31,7 +31,8 @@ const userMsg = {
   oldMinimumPassword: 'Old password should be at least 6 characters.',
   newMinimumPassword: 'New password should be at least 6 characters.',
   emailAlreadyExist: 'Provided email is already associated with another user.',
-  phoneAlreadyExist: 'Provided phone no is already associated with another user.',
+  phoneAlreadyExist:
+    'Provided phone no is already associated with another user.',
   userNotFound: 'The user is not found.',
   userWrongPassword: 'Entered password is invalid, please try again.',
   compareBothPassword: 'New password should be different from old password',
@@ -52,7 +53,8 @@ const categoryMsg = {
   requireCategoryName: 'Category name should not be blank.',
   maxName: 'Category name should not be more than 60 characters.',
   requireDescription: 'Category description should not be blank.',
-  maxDescription: 'Category description should not be more than 255 characters.',
+  maxDescription:
+    'Category description should not be more than 255 characters.',
   categoryAlreadyExist: 'Provided category is already exist.',
   newCategoryCreated: 'New category created successfully.',
   categoryNotFound: 'The category is not found.',
@@ -63,7 +65,8 @@ const consumerMsg = {
   requireConsumerName: 'Consumer name should not be blank.',
   maxName: 'Consumer name should not be more than 60 characters.',
   requireDescription: 'Consumer description should not be blank.',
-  maxDescription: 'Consumer description should not be more than 255 characters.',
+  maxDescription:
+    'Consumer description should not be more than 255 characters.',
   consumerAlreadyExist: 'Provided consumer is already exist.',
   newConsumerCreated: 'New consumer created successfully.',
   consumerNotFound: 'The consumer is not found.',

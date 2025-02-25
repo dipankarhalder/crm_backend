@@ -18,7 +18,11 @@ const createTransaction = async (req, res) => {
     }
 
     const pendingAmount = eventInfo.totalAmount - paidAmount;
-    const newUpdate = await Event.findByIdAndUpdate(eventId, { $set: { totalAmount: pendingAmount } }, { new: true });
+    const newUpdate = await Event.findByIdAndUpdate(
+      eventId,
+      { $set: { totalAmount: pendingAmount } },
+      { new: true },
+    );
     const newTransaction = new Transaction({
       eventId,
       customerId,
