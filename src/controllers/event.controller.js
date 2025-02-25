@@ -2,16 +2,13 @@ const { StatusCodes } = require('http-status-codes');
 const Consumer = require('../models/consumer.model');
 const Event = require('../models/event.model');
 const { msg } = require('../constant');
-const { verifyToken, sendErrorResponse } = require('../utils');
+const { sendErrorResponse } = require('../utils');
 
 /* create event */
 const createEvent = async (req, res) => {
   try {
-    const decoded = await verifyToken(req, res);
-    if (!decoded) return;
-
-    const { eventName, totalAmount, initialPaid, consumerId } = req.body;
-    const findConsumer = await Consumer.findById(consumerId).select('-address');
+    const { eventName, eventDate, totalAmount, initialPaid, consumerId } = req.body;
+    const findConsumer = await Consumer.findById(consumerId);
     if (!findConsumer) {
       return res.status(StatusCodes.NOT_FOUND).json({
         status: StatusCodes.NOT_FOUND,
@@ -21,6 +18,7 @@ const createEvent = async (req, res) => {
 
     const newEvent = new Event({
       eventName,
+      eventDate,
       totalAmount,
       initialPaid,
       consumerId,
@@ -41,9 +39,6 @@ const createEvent = async (req, res) => {
 /* list of event */
 const getAllEvents = async (req, res) => {
   try {
-    const decoded = await verifyToken(req, res);
-    if (!decoded) return;
-
     const allEvents = await Event.find();
     return res.status(StatusCodes.OK).json({
       status: StatusCodes.OK,
@@ -58,9 +53,6 @@ const getAllEvents = async (req, res) => {
 /* get event */
 const getEvent = async (req, res) => {
   try {
-    const decoded = await verifyToken(req, res);
-    if (!decoded) return;
-
     const consumerId = req.params.id;
     const eventItem = await Event.find({ consumerId });
     if (!eventItem) {

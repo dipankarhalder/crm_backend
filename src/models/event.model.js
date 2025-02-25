@@ -7,6 +7,10 @@ const EventSchema = new Schema(
       type: String,
       required: true,
     },
+    eventDate: {
+      type: String,
+      required: true,
+    },
     totalAmount: {
       type: Number,
       required: true,

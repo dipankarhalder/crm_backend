@@ -3,14 +3,12 @@ const User = require('../models/user.model');
 const Consumer = require('../models/consumer.model');
 const { msg } = require('../constant');
 const { consumerValidate } = require('../validation');
-const { verifyToken, validateFields, sendErrorResponse, notFoundItem } = require('../utils');
+const { validateFields, sendErrorResponse, notFoundItem } = require('../utils');
 
 /* create consumer */
 const createConsumer = async (req, res) => {
   try {
-    const decoded = await verifyToken(req, res);
-    if (!decoded) return;
-
+    const decoded = req.user;
     const { error, value } = consumerValidate.consumerInfoSchema.validate(req.body, { abortEarly: false });
     if (error) {
       return validateFields(res, error.details.map((detail) => detail.message).join(', '));

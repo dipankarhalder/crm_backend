@@ -2,14 +2,12 @@ const { StatusCodes } = require('http-status-codes');
 const User = require('../models/user.model');
 const { msg } = require('../constant');
 const { authValidate } = require('../validation');
-const { verifyToken, validateFields, sendErrorResponse, notFoundItem } = require('../utils');
+const { validateFields, sendErrorResponse, notFoundItem } = require('../utils');
 
 /* user profile */
 const userProfile = async (req, res) => {
   try {
-    const decoded = await verifyToken(req, res);
-    if (!decoded) return;
-
+    const decoded = req.user;
     const user = await User.findById(decoded.userid).select('-password');
     if (!user) {
       return notFoundItem(res, msg.userMsg.userNotFound);
@@ -27,9 +25,6 @@ const userProfile = async (req, res) => {
 /* user profile list */
 const userProfileList = async (req, res) => {
   try {
-    const decoded = await verifyToken(req, res);
-    if (!decoded) return;
-
     const role = req.query.role;
     const userList =
       role === 'all'
@@ -47,8 +42,7 @@ const userProfileList = async (req, res) => {
 /* update user password */
 const updatePassword = async (req, res) => {
   try {
-    const decoded = await verifyToken(req, res);
-    if (!decoded) return;
+    const decoded = req.user;
 
     /* validate the password input fields */
     const { error, value } = authValidate.passwordSchema.validate(req.body, {
@@ -86,8 +80,7 @@ const updatePassword = async (req, res) => {
 /* update user address */
 const updateAddress = async (req, res) => {
   try {
-    const decoded = await verifyToken(req, res);
-    if (!decoded) return;
+    const decoded = req.user;
 
     /* user address request */
     const { name, phone, area, landmark, city, state, pincode } = req.body;
