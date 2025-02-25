@@ -3,14 +3,11 @@ const Event = require('../models/event.model');
 const Transaction = require('../models/transaction.model');
 const { msg } = require('../constant');
 // const { categoryValidate } = require('../validation');
-const { verifyToken, sendErrorResponse } = require('../utils');
+const { sendErrorResponse } = require('../utils');
 
 /* create transaction */
 const createTransaction = async (req, res) => {
   try {
-    const decoded = await verifyToken(req, res);
-    if (!decoded) return;
-
     const { eventId, customerId, paidAmount } = req.body;
     const eventInfo = await Event.findById(eventId).select('-consumer');
     if (eventInfo.totalAmount < paidAmount) {
@@ -44,9 +41,6 @@ const createTransaction = async (req, res) => {
 /* list of event */
 const getAllTransaction = async (req, res) => {
   try {
-    const decoded = await verifyToken(req, res);
-    if (!decoded) return;
-
     const allTransaction = await Transaction.find();
     return res.status(StatusCodes.OK).json({
       status: StatusCodes.OK,
@@ -61,9 +55,6 @@ const getAllTransaction = async (req, res) => {
 /* get event */
 const getTransaction = async (req, res) => {
   try {
-    const decoded = await verifyToken(req, res);
-    if (!decoded) return;
-
     const eventId = req.params.id;
     const transactionItem = await Transaction.find({ eventId });
     if (!transactionItem) {

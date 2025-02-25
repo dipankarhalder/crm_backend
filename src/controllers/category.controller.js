@@ -4,14 +4,12 @@ const User = require('../models/user.model');
 const Category = require('../models/category.model');
 const { msg } = require('../constant');
 const { categoryValidate } = require('../validation');
-const { verifyToken, validateFields, sendErrorResponse, notFoundItem } = require('../utils');
+const { validateFields, sendErrorResponse, notFoundItem } = require('../utils');
 
 /* create category */
 const createCategory = async (req, res) => {
   try {
-    const decoded = await verifyToken(req, res);
-    if (!decoded) return;
-
+    const decoded = req.user;
     const { error, value } = categoryValidate.categoryInfoSchema.validate(req.body, {
       abortEarly: false,
     });
