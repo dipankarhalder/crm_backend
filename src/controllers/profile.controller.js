@@ -43,29 +43,27 @@ const userProfileList = async (req, res) => {
 const updatePassword = async (req, res) => {
   try {
     const decoded = req.user;
-
-    /* validate the password input fields */
     const { error, value } = authValidate.passwordSchema.validate(req.body, {
       abortEarly: false,
     });
     if (error) {
-      return validateFields(res, error.details.map((detail) => detail.message).join(', '));
+      return validateFields(
+        res,
+        error.details.map((detail) => detail.message).join(', '),
+      );
     }
 
-    /* use the password info after validate it */
     const { oldPassword, newPassword } = value;
     const user = await User.findById(decoded.userid);
     if (!user) {
       return validateFields(res, msg.userMsg.userNotFound);
     }
 
-    /* check if the old password matches */
     const isMatch = await user.comparePassword(oldPassword);
     if (!isMatch) {
       return validateFields(res, msg.userMsg.userWrongPassword);
     }
 
-    /* update password */
     user.password = newPassword;
     await user.save();
     return res.status(StatusCodes.OK).json({
@@ -81,15 +79,12 @@ const updatePassword = async (req, res) => {
 const updateAddress = async (req, res) => {
   try {
     const decoded = req.user;
-
-    /* user address request */
     const { name, phone, area, landmark, city, state, pincode } = req.body;
     const user = await User.findById(decoded.userid);
     if (!user) {
       return validateFields(res, msg.userMsg.userNotFound);
     }
 
-    /* update address */
     if (name) user.name = name;
     if (phone) user.phone = phone;
     user.address = { area, landmark, city, state, pincode };

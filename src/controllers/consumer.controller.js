@@ -9,9 +9,15 @@ const { validateFields, sendErrorResponse, notFoundItem } = require('../utils');
 const createConsumer = async (req, res) => {
   try {
     const decoded = req.user;
-    const { error, value } = consumerValidate.consumerInfoSchema.validate(req.body, { abortEarly: false });
+    const { error, value } = consumerValidate.consumerInfoSchema.validate(
+      req.body,
+      { abortEarly: false },
+    );
     if (error) {
-      return validateFields(res, error.details.map((detail) => detail.message).join(', '));
+      return validateFields(
+        res,
+        error.details.map((detail) => detail.message).join(', '),
+      );
     }
 
     const { name, email, phone, area, landmark, city, state, pincode } = value;
