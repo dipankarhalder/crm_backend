@@ -14,6 +14,7 @@ const endPoints = {
   /* profile */
   getProfile: '/profile/me',
   getProfileLists: '/profile',
+  createProfile: '/profile/new',
   updatePassword: '/profile/update-password',
   updateAddress: '/profile/update-profile',
 
