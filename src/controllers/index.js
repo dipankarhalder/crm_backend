@@ -2,7 +2,7 @@ const { getHealth } = require('./health.controller');
 const { userSignup, userSignin, userSignout } = require('./auth.controller');
 const { getProfile, getProfileLists, createProfile, updatePassword, updateAddress } = require('./profile.controller');
 const { createCategory, getCategory, listCategories, deleteCategory } = require('./category.controller');
-const { createConsumer, listConsumers, getConsumer, deleteConsumer } = require('./consumer.controller');
+const { createConsumer, listConsumers, editConsumer, getConsumer, deleteConsumer } = require('./consumer.controller');
 const { createTransaction, getAllTransaction, getTransaction } = require('./transaction.controller');
 const { createEvent, getAllEvents, getEvent } = require('./event.controller');
 
@@ -28,9 +28,10 @@ module.exports = {
     getCategory,
     deleteCategory,
   },
-  consumerServices: {
+  consumer: {
     createConsumer,
     listConsumers,
+    editConsumer,
     getConsumer,
     deleteConsumer,
   },
