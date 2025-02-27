@@ -38,6 +38,37 @@ const getProfileLists = async (req, res) => {
   }
 };
 
+/* create profile */
+const createProfile = async (req, res) => {
+  try {
+    const existingEmail = await User.findOne({ email: req.body.email });
+    if (existingEmail) {
+      return validateFields(res, msg.userMsg.emailAlreadyExist);
+    }
+    const user = new User({
+      name: req.body.name,
+      email: req.body.email,
+      password: req.body.password,
+      phone: req.body.phone,
+      role: req.body.role,
+      address: {
+        area: req.body.area,
+        landmark: req.body.landmark,
+        city: req.body.city,
+        state: req.body.state,
+        pincode: req.body.pincode,
+      },
+    });
+    await user.save();
+    return res.status(StatusCodes.OK).json({
+      status: StatusCodes.OK,
+      message: msg.userMsg.newUserCreated,
+    });
+  } catch (error) {
+    return sendErrorResponse(res, error);
+  }
+};
+
 /* update password */
 const updatePassword = async (req, res) => {
   try {
@@ -92,6 +123,7 @@ const updateAddress = async (req, res) => {
 module.exports = {
   getProfile,
   getProfileLists,
+  createProfile,
   updatePassword,
   updateAddress,
 };
