@@ -12,24 +12,18 @@ const userSignup = async (req, res) => {
       abortEarly: false,
     });
     if (error) {
-      return validateFields(
-        res,
-        error.details.map((detail) => detail.message).join(', '),
-      );
+      return validateFields(res, error.details.map((detail) => detail.message).join(', '));
     }
-
-    const { email, password, name, phone, role } = value;
-    const existingEmail = await User.findOne({ email });
+    const existingEmail = await User.findOne({ email: value.email });
     if (existingEmail) {
       return validateFields(res, msg.userMsg.emailAlreadyExist);
     }
-
     const user = new User({
-      email,
-      password,
-      name,
-      phone,
-      role,
+      name: value.name,
+      email: value.email,
+      password: value.password,
+      phone: value.phone,
+      role: value.role,
     });
     await user.save();
     return res.status(StatusCodes.OK).json({
@@ -48,30 +42,22 @@ const userSignin = async (req, res) => {
       abortEarly: false,
     });
     if (error) {
-      return validateFields(
-        res,
-        error.details.map((detail) => detail.message).join(', '),
-      );
+      return validateFields(res, error.details.map((detail) => detail.message).join(', '));
     }
-
-    const { email, password } = value;
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ email: value.email });
     if (!user) {
       return validateFields(res, msg.userMsg.existUserEmail);
     }
-
-    const isMatch = await user.comparePassword(password);
+    const isMatch = await user.comparePassword(value.password);
     if (!isMatch) {
       return validateFields(res, msg.userMsg.userWrongPassword);
     }
-
     const token = user.generateAuthToken();
     res.cookie('authToken', token, {
       httpOnly: true,
       secure: envConfig.NODEENV,
       maxAge: envConfig.EXPTIME,
     });
-
     return res.status(StatusCodes.OK).json({
       status: StatusCodes.OK,
       token: token,
@@ -83,14 +69,13 @@ const userSignin = async (req, res) => {
 };
 
 /* user signin */
-const userLogout = async (req, res) => {
+const userSignout = async (req, res) => {
   try {
     res.clearCookie('authToken', {
       httpOnly: true,
       secure: envConfig.NODEENV,
       sameSite: 'Strict',
     });
-
     return res.status(StatusCodes.OK).json({
       status: StatusCodes.OK,
       message: msg.userMsg.userLogoutSuccessfully,
@@ -103,5 +88,5 @@ const userLogout = async (req, res) => {
 module.exports = {
   userSignup,
   userSignin,
-  userLogout,
+  userSignout,
 };

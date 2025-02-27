@@ -17,12 +17,9 @@ const userInfoSchema = Joi.object({
     'string.empty': msg.userMsg.requirePhone,
     'string.min': msg.userMsg.minimumPhone,
   }),
-  role: Joi.string()
-    .valid('super_admin', 'collaborator', 'staff')
-    .required()
-    .messages({
-      'any.only': msg.userMsg.requireRole,
-    }),
+  role: Joi.string().valid('super_admin', 'collaborator', 'staff').required().messages({
+    'any.only': msg.userMsg.requireRole,
+  }),
 });
 
 const userLoginSchema = Joi.object({
@@ -41,15 +38,11 @@ const passwordSchema = Joi.object({
     'string.empty': msg.userMsg.requireOldPassword,
     'string.min': msg.userMsg.oldMinimumPassword,
   }),
-  newPassword: Joi.string()
-    .min(6)
-    .required()
-    .not(Joi.ref('oldPassword'))
-    .messages({
-      'string.empty': msg.userMsg.requireNewPassword,
-      'string.min': msg.userMsg.newMinimumPassword,
-      'any.only': msg.userMsg.compareBothPassword,
-    }),
+  newPassword: Joi.string().min(6).required().not(Joi.ref('oldPassword')).messages({
+    'string.empty': msg.userMsg.requireNewPassword,
+    'string.min': msg.userMsg.newMinimumPassword,
+    'any.only': msg.userMsg.compareBothPassword,
+  }),
 });
 
 module.exports = {
