@@ -1,4 +1,4 @@
-const allRouters = {
+const endPoints = {
   /* base route */
   base: '/api',
   v1Base: '/v1',
@@ -13,7 +13,7 @@ const allRouters = {
 
   /* profile */
   getProfile: '/profile/me',
-  getColProfile: '/profile',
+  getProfileLists: '/profile',
   updatePassword: '/profile/update-password',
   updateAddress: '/profile/update-profile',
 
@@ -39,5 +39,5 @@ const allRouters = {
 };
 
 module.exports = {
-  allRouters,
+  endPoints,
 };

@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 const { envConfig } = require('../config');
 const { msg } = require('../constant');
 
-const verifyAuthToken = (req, res, next) => {
+const verifyToken = (req, res, next) => {
   try {
     const token = req.cookies.authToken;
     if (!token) {
@@ -12,7 +12,6 @@ const verifyAuthToken = (req, res, next) => {
         message: msg.userMsg.accessDenied,
       });
     }
-
     const decoded = jwt.verify(token, envConfig.JWTSECRET);
     if (!decoded) {
       return res.status(StatusCodes.UNAUTHORIZED).json({
@@ -20,7 +19,6 @@ const verifyAuthToken = (req, res, next) => {
         message: msg.userMsg.invalidToken,
       });
     }
-
     req.user = decoded;
     next();
   } catch (error) {
@@ -32,4 +30,4 @@ const verifyAuthToken = (req, res, next) => {
   }
 };
 
-module.exports = verifyAuthToken;
+module.exports = verifyToken;
