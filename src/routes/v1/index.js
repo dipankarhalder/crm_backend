@@ -2,15 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const { routers } = require('../../constant');
-const {
-  health,
-  auth,
-  profile,
-  categoryServices,
-  consumerServices,
-  transactionServices,
-  eventServices,
-} = require('../../controllers');
+const { health, auth, profile, categoryServices, consumer, transactionServices, eventServices } = require('../../controllers');
 const verifyToken = require('../../middleware/verifyAuthToken');
 
 /* health check */
@@ -29,10 +21,11 @@ router.patch(routers.endPoints.updatePassword, verifyToken, profile.updatePasswo
 router.patch(routers.endPoints.updateAddress, verifyToken, profile.updateAddress);
 
 /* consumers */
-router.post(routers.endPoints.newConsumer, verifyToken, consumerServices.createConsumer);
-router.get(routers.endPoints.listConsumers, verifyToken, consumerServices.listConsumers);
-router.get(routers.endPoints.consumerItem, verifyToken, consumerServices.getConsumer);
-router.delete(routers.endPoints.consumerItem, verifyToken, consumerServices.deleteConsumer);
+router.post(routers.endPoints.newConsumer, verifyToken, consumer.createConsumer);
+router.get(routers.endPoints.listConsumers, verifyToken, consumer.listConsumers);
+router.patch(routers.endPoints.consumerItem, verifyToken, consumer.editConsumer);
+router.get(routers.endPoints.consumerItem, verifyToken, consumer.getConsumer);
+router.delete(routers.endPoints.consumerItem, verifyToken, consumer.deleteConsumer);
 
 /* catagories */
 router.post(routers.endPoints.newCategory, verifyToken, categoryServices.createCategory);
