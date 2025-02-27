@@ -13,30 +13,26 @@ const createConsumer = async (req, res) => {
     if (error) {
       return validateFields(res, error.details.map((detail) => detail.message).join(', '));
     }
-
-    const { name, email, phone, area, landmark, city, state, pincode } = value;
     const existingConsumer = await Consumer.findOne({
-      email,
+      email: value.email,
     });
     if (existingConsumer) {
       return validateFields(res, msg.consumerMsg.consumerAlreadyExist);
     }
-
     const user = await User.findById(decoded.userid).select('-password');
     const newConsumer = new Consumer({
-      name,
-      email,
-      phone,
+      name: value.name,
+      email: value.email,
+      phone: value.phone,
       address: {
-        area,
-        landmark,
-        city,
-        state,
-        pincode,
+        area: value.area,
+        landmark: value.landmark,
+        city: value.city,
+        state: value.state,
+        pincode: value.pincode,
       },
       user,
     });
-
     await newConsumer.save();
     return res.status(StatusCodes.OK).json({
       status: StatusCodes.OK,
@@ -55,6 +51,40 @@ const listConsumers = async (req, res) => {
     return res.status(StatusCodes.OK).json({
       status: StatusCodes.OK,
       list: consumers,
+    });
+  } catch (error) {
+    return sendErrorResponse(res, error);
+  }
+};
+
+/* edit consumer */
+const editConsumer = async (req, res) => {
+  try {
+    const consumerId = req.params.id;
+    const { error, value } = consumerValidate.consumerInfoSchema.validate(req.body, { abortEarly: false });
+    if (error) {
+      return validateFields(res, error.details.map((detail) => detail.message).join(', '));
+    }
+    const existingConsumer = await Consumer.findById(consumerId);
+    if (!existingConsumer) {
+      return notFoundItem(res, msg.consumerMsg.consumerNotFound);
+    }
+    const updatedConsumerData = {
+      name: value.name || existingConsumer.name,
+      phone: value.phone || existingConsumer.phone,
+      address: {
+        area: value.area || existingConsumer.address.area,
+        landmark: value.landmark || existingConsumer.address.landmark,
+        city: value.city || existingConsumer.address.city,
+        state: value.state || existingConsumer.address.state,
+        pincode: value.pincode || existingConsumer.address.pincode,
+      },
+    };
+    const updatedConsumer = await Consumer.findByIdAndUpdate(consumerId, updatedConsumerData, { new: true });
+    return res.status(StatusCodes.OK).json({
+      status: StatusCodes.OK,
+      details: updatedConsumer,
+      message: msg.consumerMsg.consumerUpdated,
     });
   } catch (error) {
     return sendErrorResponse(res, error);
@@ -96,6 +126,7 @@ const deleteConsumer = async (req, res) => {
 module.exports = {
   createConsumer,
   listConsumers,
+  editConsumer,
   getConsumer,
   deleteConsumer,
 };

@@ -68,6 +68,7 @@ const consumerMsg = {
   newConsumerCreated: 'New consumer created successfully.',
   consumerNotFound: 'The consumer is not found.',
   consumerDeleted: 'Consumer deleted successfully.',
+  consumerUpdated: 'Consumer updated successfully.',
 };
 
 module.exports = {
