@@ -3,123 +3,51 @@ const router = express.Router();
 
 const { routers } = require('../../constant');
 const {
-  healthServices,
-  authServices,
-  profileServices,
+  health,
+  auth,
+  profile,
   categoryServices,
   consumerServices,
   transactionServices,
   eventServices,
 } = require('../../controllers');
-const verifyAuthToken = require('../../middleware/verifyAuthToken');
+const verifyToken = require('../../middleware/verifyAuthToken');
 
 /* health check */
-router.get(routers.allRouters.health, healthServices.getHealth);
+router.get(routers.endPoints.health, health.getHealth);
 
 /* authentication */
-router.post(routers.allRouters.signup, authServices.userSignup);
-router.post(routers.allRouters.signin, authServices.userSignin);
-router.post(routers.allRouters.signout, authServices.userLogout);
+router.post(routers.endPoints.signup, auth.userSignup);
+router.post(routers.endPoints.signin, auth.userSignin);
+router.post(routers.endPoints.signout, auth.userSignout);
 
 /* profile */
-router.get(
-  routers.allRouters.getProfile,
-  verifyAuthToken,
-  profileServices.userProfile,
-);
-router.get(
-  routers.allRouters.getColProfile,
-  verifyAuthToken,
-  profileServices.userProfileList,
-);
-router.patch(
-  routers.allRouters.updatePassword,
-  verifyAuthToken,
-  profileServices.updatePassword,
-);
-router.patch(
-  routers.allRouters.updateAddress,
-  verifyAuthToken,
-  profileServices.updateAddress,
-);
+router.get(routers.endPoints.getProfile, verifyToken, profile.getProfile);
+router.get(routers.endPoints.getProfileLists, verifyToken, profile.getProfileLists);
+router.patch(routers.endPoints.updatePassword, verifyToken, profile.updatePassword);
+router.patch(routers.endPoints.updateAddress, verifyToken, profile.updateAddress);
 
 /* consumers */
-router.post(
-  routers.allRouters.newConsumer,
-  verifyAuthToken,
-  consumerServices.createConsumer,
-);
-router.get(
-  routers.allRouters.listConsumers,
-  verifyAuthToken,
-  consumerServices.listConsumers,
-);
-router.get(
-  routers.allRouters.consumerItem,
-  verifyAuthToken,
-  consumerServices.getConsumer,
-);
-router.delete(
-  routers.allRouters.consumerItem,
-  verifyAuthToken,
-  consumerServices.deleteConsumer,
-);
+router.post(routers.endPoints.newConsumer, verifyToken, consumerServices.createConsumer);
+router.get(routers.endPoints.listConsumers, verifyToken, consumerServices.listConsumers);
+router.get(routers.endPoints.consumerItem, verifyToken, consumerServices.getConsumer);
+router.delete(routers.endPoints.consumerItem, verifyToken, consumerServices.deleteConsumer);
 
 /* catagories */
-router.post(
-  routers.allRouters.newCategory,
-  verifyAuthToken,
-  categoryServices.createCategory,
-);
-router.get(
-  routers.allRouters.listCategory,
-  verifyAuthToken,
-  categoryServices.listCategories,
-);
-router.get(
-  routers.allRouters.categoryItem,
-  verifyAuthToken,
-  categoryServices.getCategory,
-);
-router.delete(
-  routers.allRouters.categoryItem,
-  verifyAuthToken,
-  categoryServices.deleteCategory,
-);
+router.post(routers.endPoints.newCategory, verifyToken, categoryServices.createCategory);
+router.get(routers.endPoints.listCategory, verifyToken, categoryServices.listCategories);
+router.get(routers.endPoints.categoryItem, verifyToken, categoryServices.getCategory);
+router.delete(routers.endPoints.categoryItem, verifyToken, categoryServices.deleteCategory);
 
 /* transaction */
-router.post(
-  routers.allRouters.newTransaction,
-  verifyAuthToken,
-  transactionServices.createTransaction,
-);
-router.get(
-  routers.allRouters.listTransactions,
-  verifyAuthToken,
-  transactionServices.getAllTransaction,
-);
-router.get(
-  routers.allRouters.transactionItem,
-  verifyAuthToken,
-  transactionServices.getTransaction,
-);
+router.post(routers.endPoints.newTransaction, verifyToken, transactionServices.createTransaction);
+router.get(routers.endPoints.listTransactions, verifyToken, transactionServices.getAllTransaction);
+router.get(routers.endPoints.transactionItem, verifyToken, transactionServices.getTransaction);
 
 /* event */
-router.post(
-  routers.allRouters.newEvent,
-  verifyAuthToken,
-  eventServices.createEvent,
-);
-router.get(
-  routers.allRouters.listEvents,
-  verifyAuthToken,
-  eventServices.getAllEvents,
-);
-router.get(
-  routers.allRouters.eventItem,
-  verifyAuthToken,
-  eventServices.getEvent,
-);
+router.post(routers.endPoints.newEvent, verifyToken, eventServices.createEvent);
+router.get(routers.endPoints.listEvents, verifyToken, eventServices.getAllEvents);
+router.get(routers.endPoints.eventItem, verifyToken, eventServices.getEvent);
 
 module.exports = {
   v1Routes: router,

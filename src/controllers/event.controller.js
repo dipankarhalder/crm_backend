@@ -7,8 +7,7 @@ const { sendErrorResponse } = require('../utils');
 /* create event */
 const createEvent = async (req, res) => {
   try {
-    const { eventName, eventDate, totalAmount, initialPaid, consumerId } =
-      req.body;
+    const { eventName, eventDate, totalAmount, initialPaid, consumerId } = req.body;
     const findConsumer = await Consumer.findById(consumerId);
     if (!findConsumer) {
       return res.status(StatusCodes.NOT_FOUND).json({

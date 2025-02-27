@@ -1,5 +1,4 @@
 const { StatusCodes } = require('http-status-codes');
-
 const { msg } = require('../constant');
 const { sendErrorResponse } = require('../utils');
 

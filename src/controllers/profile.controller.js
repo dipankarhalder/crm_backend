@@ -5,14 +5,13 @@ const { authValidate } = require('../validation');
 const { validateFields, sendErrorResponse, notFoundItem } = require('../utils');
 
 /* user profile */
-const userProfile = async (req, res) => {
+const getProfile = async (req, res) => {
   try {
     const decoded = req.user;
     const user = await User.findById(decoded.userid).select('-password');
     if (!user) {
       return notFoundItem(res, msg.userMsg.userNotFound);
     }
-
     return res.status(StatusCodes.OK).json({
       status: StatusCodes.OK,
       data: user,
@@ -22,8 +21,8 @@ const userProfile = async (req, res) => {
   }
 };
 
-/* user profile list */
-const userProfileList = async (req, res) => {
+/* user profile lists */
+const getProfileLists = async (req, res) => {
   try {
     const role = req.query.role;
     const userList =
@@ -39,7 +38,7 @@ const userProfileList = async (req, res) => {
   }
 };
 
-/* update user password */
+/* update password */
 const updatePassword = async (req, res) => {
   try {
     const decoded = req.user;
@@ -47,24 +46,17 @@ const updatePassword = async (req, res) => {
       abortEarly: false,
     });
     if (error) {
-      return validateFields(
-        res,
-        error.details.map((detail) => detail.message).join(', '),
-      );
+      return validateFields(res, error.details.map((detail) => detail.message).join(', '));
     }
-
-    const { oldPassword, newPassword } = value;
     const user = await User.findById(decoded.userid);
     if (!user) {
       return validateFields(res, msg.userMsg.userNotFound);
     }
-
-    const isMatch = await user.comparePassword(oldPassword);
+    const isMatch = await user.comparePassword(value.oldPassword);
     if (!isMatch) {
       return validateFields(res, msg.userMsg.userWrongPassword);
     }
-
-    user.password = newPassword;
+    user.password = value.newPassword;
     await user.save();
     return res.status(StatusCodes.OK).json({
       status: StatusCodes.OK,
@@ -75,7 +67,7 @@ const updatePassword = async (req, res) => {
   }
 };
 
-/* update user address */
+/* update address */
 const updateAddress = async (req, res) => {
   try {
     const decoded = req.user;
@@ -84,7 +76,6 @@ const updateAddress = async (req, res) => {
     if (!user) {
       return validateFields(res, msg.userMsg.userNotFound);
     }
-
     if (name) user.name = name;
     if (phone) user.phone = phone;
     user.address = { area, landmark, city, state, pincode };
@@ -99,8 +90,8 @@ const updateAddress = async (req, res) => {
 };
 
 module.exports = {
-  userProfile,
-  userProfileList,
+  getProfile,
+  getProfileLists,
   updatePassword,
   updateAddress,
 };

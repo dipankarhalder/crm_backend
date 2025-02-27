@@ -10,17 +10,11 @@ const { validateFields, sendErrorResponse, notFoundItem } = require('../utils');
 const createCategory = async (req, res) => {
   try {
     const decoded = req.user;
-    const { error, value } = categoryValidate.categoryInfoSchema.validate(
-      req.body,
-      {
-        abortEarly: false,
-      },
-    );
+    const { error, value } = categoryValidate.categoryInfoSchema.validate(req.body, {
+      abortEarly: false,
+    });
     if (error) {
-      return validateFields(
-        res,
-        error.details.map((detail) => detail.message).join(', '),
-      );
+      return validateFields(res, error.details.map((detail) => detail.message).join(', '));
     }
 
     const { categoryName, description } = value;
