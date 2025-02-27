@@ -24,6 +24,7 @@ router.post(routers.endPoints.signout, auth.userSignout);
 /* profile */
 router.get(routers.endPoints.getProfile, verifyToken, profile.getProfile);
 router.get(routers.endPoints.getProfileLists, verifyToken, profile.getProfileLists);
+router.post(routers.endPoints.createProfile, verifyToken, profile.createProfile);
 router.patch(routers.endPoints.updatePassword, verifyToken, profile.updatePassword);
 router.patch(routers.endPoints.updateAddress, verifyToken, profile.updateAddress);
 
